@@ -1,0 +1,169 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESFAM Digital Voting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <img src="logo.png" alt="ESFAM Logo" class="logo">
+            <h1>ESFAM Student Union Elections 2025</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <h2>Secure Digital Voting Platform</h2>
+            <p>Cast your vote for student leadership positions securely and transparently</p>
+            <div class="timer">
+                <div class="timer-box"><span id="hours">04</span>h</div>
+                <div class="timer-box"><span id="minutes">00</span>m</div>
+                <div class="timer-box"><span id="seconds">00</span>s</div>
+            </div>
+        </section>
+
+        <div class="voter-verify">
+            <input type="text" id="matricInput" placeholder="Enter Matric Number (ESFAM/XXX/0000)">
+            <button onclick="verifyStudent()">Verify</button>
+            <p class="error" id="errorMsg"></p>
+        </div>
+
+        <section class="candidates-grid" id="candidatesContainer">
+            <!-- Candidates loaded dynamically -->
+        </section>
+    </main>
+
+    <div class="modal" id="voteModal">
+        <div class="modal-content">
+            <h3>Confirm Your Vote</h3>
+            <p id="selectedCandidate"></p>
+            <button onclick="submitVote()">Confirm</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ESFAM Voting System</p>
+            <p>Secure • Transparent • Reliable</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html><style>:root {
+    --primary: #2c3e50;
+    --secondary: #e74c3c;
+    --accent: #3498db;
+    --light: #f8f9fa;
+    --dark: #2c3e50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background: var(--primary);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.logo {
+    height: 80px;
+    margin-bottom: 1rem;
+}
+
+.intro {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.timer-box {
+    background: var(--accent);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.5rem;
+}
+
+.candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.candidate-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+}
+
+.candidate-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid var(--accent);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.footer {
+    background: var(--primary);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: 3rem;
+}</style>

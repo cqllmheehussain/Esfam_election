@@ -1,0 +1,53 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head as index.html -->
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <div class="admin-section">
+            <h2>Add New Candidate</h2>
+            <input type="text" id="candidateName" placeholder="Full Name">
+            <input type="text" id="candidatePosition" placeholder="Position">
+            <textarea id="candidateDesc" placeholder="Description"></textarea>
+            <input type="text" id="candidateImage" placeholder="Image URL">
+            <button onclick="addCandidate()">Add Candidate</button>
+        </div>
+
+        <div class="admin-section">
+            <h2>Election Results</h2>
+            <div id="results"></div>
+            <button onclick="resetVotes()">Reset Votes</button>
+        </div>
+    </div>
+
+    <script>
+        function addCandidate() {
+            const candidates = JSON.parse(localStorage.getItem('candidates')) || [];
+            
+            const newCandidate = {
+                id: candidates.length + 1,
+                name: document.getElementById('candidateName').value,
+                position: document.getElementById('candidatePosition').value,
+                description: document.getElementById('candidateDesc').value,
+                image: document.getElementById('candidateImage').value,
+                votes: 0
+            };
+            
+            candidates.push(newCandidate);
+            localStorage.setItem('candidates', JSON.stringify(candidates));
+            alert("Candidate added!");
+        }
+
+        function resetVotes() {
+            localStorage.removeItem('votes'));
+            const candidates = JSON.parse(localStorage.getItem('candidates')) || [];
+            candidates.forEach(c => c.votes = 0);
+            localStorage.setItem('candidates', JSON.stringify(candidates));
+            alert("All votes reset!");
+        }
+    </script>
+</body>
+</html>

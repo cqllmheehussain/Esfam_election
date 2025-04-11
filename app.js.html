@@ -1,0 +1,100 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/>// Initialize Data
+let candidates = JSON.parse(localStorage.getItem('candidates')) || [
+    {
+        id: 1,
+        name: "John Doe",
+        position: "President",
+        image: "candidate1.jpg",
+        description: "Computer Science Department",
+        votes: 0
+    },
+                    id: 2,name: "Josh Abraham",
+        position: "social Director",
+        image: "candidate2.jpg",
+        description: "Computer Science Department",
+        votes: 0
+    },
+];
+
+let votes = JSON.parse(localStorage.getItem('votes')) || {};
+
+// Voting System
+let currentVoter = null;
+let selectedCandidate = null;
+
+function verifyStudent() {
+    const matric = document.getElementById('matricInput').value.trim();
+    const errorMsg = document.getElementById('errorMsg');
+    
+    if (!/^ESFAM\/[A-Z]{3}\/\d{4}$/.test(matric)) {
+        errorMsg.textContent = "Invalid matric number format";
+        return;
+    }
+    
+    if (votes[matric]) {
+        errorMsg.textContent = "This matric number has already voted";
+    } else {
+        currentVoter = matric;
+        errorMsg.textContent = "";
+        alert("Verification successful! You may now vote.");
+    }
+}
+
+function showCandidates() {
+    const container = document.getElementById('candidatesContainer');
+    container.innerHTML = '';
+    
+    candidates.forEach(candidate => {
+        container.innerHTML += `
+            <div class="candidate-card">
+                <img src="${candidate.image}" alt="${candidate.name}">
+                <h3>${candidate.name}</h3>
+                <p>${candidate.position}</p>
+                <p>${candidate.description}</p>
+                <button onclick="openVoteModal(${candidate.id})">Vote</button>
+                <div class="vote-count">Votes: ${candidate.votes}</div>
+            </div>
+        `;
+    });
+}
+
+function openVoteModal(candidateId) {
+    if (!currentVoter) {
+        alert("Please verify your matric number first");
+        return;
+    }
+    
+    selectedCandidate = candidates.find(c => c.id === candidateId);
+    document.getElementById('selectedCandidate').textContent = 
+        `Confirm vote for ${selectedCandidate.name} (${selectedCandidate.position})`;
+    document.getElementById('voteModal').style.display = 'flex';
+}
+
+function submitVote() {
+    selectedCandidate.votes++;
+    votes[currentVoter] = selectedCandidate.id;
+    
+    localStorage.setItem('candidates', JSON.stringify(candidates));
+    localStorage.setItem('votes', JSON.stringify(votes));
+    
+    alert("Vote recorded successfully!");
+    closeModal();
+    showCandidates();
+}
+
+function closeModal() {
+    document.getElementById('voteModal').style.display = 'none';
+    currentVoter = null;
+    selectedCandidate = null;
+}
+
+// Admin Functions (password: admin123)
+function adminLogin() {
+    const password = prompt("Enter admin password:");
+    if (password === "admin123") {
+        window.location.href = "admin.html";
+    }
+}
+
+// Initialize
+showCandidates();
